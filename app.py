@@ -36,7 +36,7 @@ def parse_jwt(token: str) -> dict:
     if len(parts) != 3:
         raise ValueError('Invalid JWT format')
 
-    # Tambah padding 
+
     payload = parts[1]
     payload += '=' * (4 - len(payload) % 4)
     decoded = base64.urlsafe_b64decode(payload)
@@ -58,7 +58,7 @@ def home():
 def login():
     discovery = get_discovery()
 
-    # Generate state & nonce untuk keamanan
+    # Generate state & nonce untuk safety
     state = secrets.token_urlsafe(32)
     nonce = secrets.token_urlsafe(32)
     session['oidc_state'] = state
@@ -80,7 +80,7 @@ def login():
 
 @app.route('/auth/callback')
 def callback():
-    # Debug: print semua yang diterima
+    
     print("=== CALLBACK ===")
     print("Args:", request.args)
     print("Session state:", session.get('oidc_state'))
