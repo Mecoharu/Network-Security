@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OIDC Demo - Flask</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        .icon { font-size: 3rem; margin-bottom: 1rem; }
+        h1 { font-size: 1.8rem; color: #1e1e2e; margin-bottom: 0.5rem; }
+        .badge {
+            display: inline-block;
+            background: #ede9fe;
+            color: #6d28d9;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        p { color: #555; margin-bottom: 1.5rem; }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: #4f46e5;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #4338ca; }
+        .btn-outline {
+            background: white;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+            margin-left: 0.5rem;
+        }
+        .btn-outline:hover { background: #ede9fe; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">🔐</div>
+        <h1>OIDC Lab</h1>
+        <span class="badge">Provider: {{ provider }}</span>
+
+        {% if user %}
+            <p>Welcome back, <strong>{{ user.get('preferred_username') or user.get('sub') }}</strong>!</p>
+            <a href="/profile" class="btn">View Profile</a>
+            <a href="/auth/logout" class="btn btn-outline">Logout</a>
+        {% else %}
+            <p>Clik this button  to login!! :3</p>
+            <a href="/auth/login" class="btn"> Login with OIDC</a>
+        {% endif %}
+    </div>
+</body>
+</html>

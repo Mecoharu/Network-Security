@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 750px; margin: 0 auto; }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .avatar {
+            width: 60px; height: 60px;
+            background: #4f46e5;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; color: white;
+        }
+        h1 { font-size: 1.5rem; color: #1e1e2e; }
+        .badge {
+            display: inline-block;
+            background: #ede9fe;
+            color: #6d28d9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        h2 { font-size: 1rem; color: #555; margin-bottom: 1rem; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td {
+            text-align: left;
+            padding: 0.65rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+        th { background: #fafafa; color: #888; font-weight: 600; }
+        td:first-child { font-family: monospace; color: #6d28d9; }
+        .token-box {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 1rem;
+            border-radius: 10px;
+            word-break: break-all;
+            font-size: 0.78rem;
+            line-height: 1.6;
+            font-family: monospace;
+        }
+        .token-hint {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .token-hint a { color: #4f46e5; }
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .btn-red { background: #ef4444; color: white; }
+        .btn-red:hover { background: #dc2626; }
+        .btn-gray { background: #f0f0f0; color: #333; margin-right: 0.5rem; }
+        .btn-gray:hover { background: #e0e0e0; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Header Card -->
+    <div class="card">
+        <div class="header">
+            <div class="avatar">👤</div>
+            <div>
+                <h1>{{ user.get('preferred_username') or user.get('sub') }}</h1>
+                <span class="badge">Provider: {{ provider }}</span>
+            </div>
+        </div>
+
+        <h2>📋 Claims dari ID Token (JWT)</h2>
+        <table>
+            <tr><th>Claim</th><th>Value</th></tr>
+            {% for key, value in user.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Token Card -->
+    <div class="card">
+        <h2>🔑 Raw ID Token (JWT)</h2>
+        <div class="token-box">{{ id_token }}</div>
+        <p class="token-hint">
+            Paste token di atas ke
+            <a href="https://jwt.io" target="_blank">jwt.io</a>
+            untuk melihat payload lengkapnya.
+        </p>
+    </div>
+
+    <!-- Actions -->
+    <div>
+        <a href="/" class="btn btn-gray">← Home</a>
+        <a href="/auth/logout" class="btn btn-red">Logout</a>
+    </div>
+
+</div>
+</body>
+</html>
