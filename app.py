@@ -10,7 +10,7 @@ from flask import (
 )
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'fallback-secret')
@@ -69,7 +69,7 @@ def login():
         'response_type': 'code',
         'client_id':     os.getenv('OIDC_CLIENT_ID'),
         'redirect_uri':  os.getenv('OIDC_REDIRECT_URI'),
-        'scope':         'openid profile email',
+        'scope': os.getenv('OIDC_SCOPE', 'openid profile email'),
         'state':         state,
         'nonce':         nonce,
     }
@@ -105,11 +105,13 @@ def callback():
         discovery['token_endpoint'],
         data={
             'grant_type':    'authorization_code',
-            'client_id':     os.getenv('OIDC_CLIENT_ID'),
-            'client_secret': os.getenv('OIDC_CLIENT_SECRET'),
+            # 'client_id':     os.getenv('OIDC_CLIENT_ID'),
+            # 'client_secret': os.getenv('OIDC_CLIENT_SECRET'),
             'redirect_uri':  os.getenv('OIDC_REDIRECT_URI'),
             'code':          code,
-        }
+        },
+        auth=(os.getenv('OIDC_CLIENT_ID'), os.getenv('OIDC_CLIENT_SECRET'))
+        
     )
 
     if not token_response.ok:
